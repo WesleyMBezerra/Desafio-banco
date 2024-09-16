@@ -10,17 +10,22 @@ LIMITE_SAQUES = 3
 
 contador = 0
 
+usuario =[[],         #0:id 
+          [],         #1:nome
+          [],         #2:nascimento
+          [],         #3:cpf
+          [[],[]]]    #4:endereço => 0:cep, 1:numero
+
+conta = [[],[]]
+
+agencia = "0001"
+
+contas = 1
 
 def cadastrarUsuario():
     global contador
       
     print("___Cadastro Usuario___")
-
-    usuario =[[],         #0:id 
-              [],         #1:nome
-              [],         #2:nascimento
-              [],         #3:cpf
-              [[],[]]]    #4:endereço => 0:cep, 1:numero
 
     contador += 1
 
@@ -31,15 +36,41 @@ def cadastrarUsuario():
 
     data = input("Digite sua data de nascimento no formato 'dia-mês-ano: ")
 
-    usuario[1].append(data)
+    usuario[2].append(data)
+
+    cpf = input("Digite apenas os números de seu CPF: ")
+
+    if cpf in usuario[3] : 
+        print("Esse CPF já foi cadastrado anteriormente")
+        exit()
+
+    else:
+        usuario[3].append(cpf)
+    
+    endereco = input("Digite seu cep e o número da sua casa, utilizando apenas os números: ")
+
+    endereco_dividido = endereco.split()
+
+    usuario[4][0].append(endereco_dividido[0])
+    usuario[4][1].append(endereco_dividido[1])
+
     
 
-
-    print(usuario)
-
-
 def contaBancaria():
-    pass
+    global contas
+    cpf = input("Digite o CPF do usuário que deseja criar a conta: ")
+
+    if cpf in usuario[3]:
+        conta[0] = str(contas) +" " +  agencia
+        conta[1] = cpf
+        contas +=1
+
+    else:
+        print("O cpf digitado não foi cadastrado, crie uma conta para esse usuário: ")
+        exit()
+
+
+    print(conta)
 
 def deposito(valor: float):
     if(valor <= 0):
@@ -91,6 +122,10 @@ def menu(entrada: str):
             saque(valor)
         case "E":
             extrato()
+        case "U":
+            cadastrarUsuario()
+        case "C":
+            contaBancaria()
         case "X":
             print("Encerrando...")
         case _:
@@ -99,20 +134,20 @@ def menu(entrada: str):
 
 if __name__ == "__main__":
 
-    cadastrarUsuario()
+    while(True):
 
-    # while(True):
+        print("\n__MENU DO BANCO__")
+        entrada =input("Selecione uma das opções para realizar uma operação\n"
+              "Depositar => D\n"
+              "Saque => S\n"
+              "Extrato => E\n"
+              "Cadastrar Usuário => U\n"
+              "Criar Conta => C\n"
+              "Sair => X\n")
 
-    #     print("\n__MENU DO BANCO__")
-    #     entrada =input("Selecione uma das opções para realizar uma operação\n"
-    #           "Depositar => D\n"
-    #           "Saque => S\n"
-    #           "Extrato => E\n"
-    #           "Sair => X\n")
+        menu(entrada.upper())
 
-    #     menu(entrada.upper())
-
-    #     if entrada.upper() == "X": break
+        if entrada.upper() == "X": break
         
 
 
