@@ -1,4 +1,7 @@
-class cliente(abc):
+from abc import ABC, classmethod, abstractmethod
+from datetime import datetime
+
+class cliente(ABC):
 
     def __init__(self,endereco:str,contas: list):
         self.endereco = endereco
@@ -13,3 +16,8 @@ class cliente(abc):
         pass
 
     
+class PessoaFisica(cliente):
+
+    def __init__(self, endereco: str, contas: list, cpf: str, nome:str,nascimento:date):
+        super().__init__(endereco, contas)
+        self.cpf =cpf
